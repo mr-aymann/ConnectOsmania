@@ -161,7 +161,7 @@
     color: black;
   }
   
-  .modal__button {
+  .modal__buttons {
     display: flex;
     align-items: center;
     flex-direction: row;
@@ -170,7 +170,7 @@
     width: 100%;
   }
   
-  .modal__button > .cancle {
+  .modal__buttons > .cancle {
     border: none;
     margin-top: 10px;
     outline: none;
@@ -181,10 +181,10 @@
     cursor: pointer;
   }
   
-  .modal__button > .cancle:hover {
+  .modal__buttons > .cancle:hover {
     color: red;
   }
-  .modal__button > .add {
+  .modal__buttons > .add {
     border: none;
     outline: none;
     margin-top: 5px;
@@ -196,7 +196,7 @@
     cursor: pointer;
     width: 50%;
   }
-  .modal__button > .add:hover {
+  .modal__buttons> .add:hover {
     background-color: #eee;
     color: #222;
   }
