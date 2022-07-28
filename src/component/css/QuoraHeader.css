@@ -161,21 +161,21 @@
     cursor: pointer;
   }
   
-  .modal__Field {
+  .modal__field {
     display: flex;
     flex-direction: column;
     margin-top: 30px;
     flex: 1;
   }
   
-  .modal__Field > .modal__fieldLink {
+  .modal__field > .modal__fieldLink {
     color: gray;
     display: flex;
     margin-top: 10px;
     align-items: center;
   }
   
-  .modal__Field > .modal__fieldLink > input {
+  .modal__field > .modal__fieldLink > input {
     flex: 1;
     border: none;
     outline: none;
@@ -189,7 +189,7 @@
     align-items: center;
   }
   
-  .modal__buttons > .cancle {
+  .modal__buttons > .cancel {
     margin-top: 10px;
     border: none;
     outline: none;
@@ -200,7 +200,7 @@
     cursor: pointer;
   }
   
-  .modal__buttons > .cancle:hover {
+  .modal__buttons > .cancel:hover {
     color: red;
   }
   
