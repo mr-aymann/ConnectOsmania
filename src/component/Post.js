@@ -7,11 +7,38 @@ import RepeatOutlinedIcon from '@mui/icons-material/RepeatOutlined';
 import ChatBubbleOutlinedIcon from '@mui/icons-material/ChatBubbleOutlined';
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
-import Modal from 'react-responsive-modal';
+import {Modal} from 'react-responsive-modal';
 import 'react-responsive-modal/styles.css';
 import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css';
 import CloseIcon from '@mui/icons-material/Close';
+
+class CustomQuill extends ReactQuill {
+  destroyEditor() {
+    if (!this.editor) return;
+    this.unhookEditor(this.editor);
+  }
+}
+
+const modules = {
+  toolbar: [
+    [{ header: "1" }, { header: "2" }, { font: [] }],
+    [{ size: [] }],
+    ["bold", "italic", "underline", "strike", "blockquote"],
+    [
+      { list: "ordered" },
+      { list: "bullet" },
+      { indent: "-1" },
+      { indent: "+1" }
+    ],
+    ["link", "image", "video"],
+    ["clean"]
+  ],
+  clipboard: {
+    // toggle to add extra line breaks when pasting HTML:
+    matchVisual: false
+  }
+};
 
 
 function Post() {
@@ -30,7 +57,7 @@ function Post() {
             <button onClick={()=>setOpen(true)} className='post__btnAnswer'>Answer</button></div>
             <Modal
              open={open}
-             //onClose={onCloseModal} 
+              onClose={()=>setOpen(false)}     
              closeIcon={Close}
                onCloseModal = {() => setOpen(false)}
                closeOnEsc
@@ -48,7 +75,11 @@ function Post() {
                 <p>Asked by {" "} <span className='name'>Username </span>on <span className='name'>timestamp</span></p>
               </div>
               <div className='modal__answer'>
-                <ReactQuill placeholder="Enter your answer"></ReactQuill>
+              <CustomQuill
+                  theme="snow"
+                  placeholder="Enter your answer"
+                  modules={modules}
+                />`
               </div>
               <div className='modal__buttons'>
                     <button className='cancel' onClick={()=>setOpen(false)}>

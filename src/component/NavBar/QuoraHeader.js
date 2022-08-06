@@ -19,7 +19,7 @@ function QuoraHeader() {
   const [inputUrl,setInputUrl]=useState("");
 
   const onOpenModal = () => setOpen(true);
-  // onCloseModal = () => setOpen(false);
+  const onCloseModal = () => setOpen(false);
   const Close=<CloseIcon/>
   return (
     <div className='qHeader'>
@@ -40,10 +40,16 @@ function QuoraHeader() {
                 <input type="text" placeholder='Search Questions'/>
             </div>
             <div className='qHeader__Rem'><Avatar/></div>
-                <Button onClick={onOpenModal}> Add Question</Button>
+                <Button style=
+                {{ color: "white",
+                  background: "#222",
+                  textTransform: "inherit",
+                  borderRadius: "5px",
+                  marginLeft: "25px"}} 
+    onClick={onOpenModal}> Add Question</Button>
                 <Modal
                   open={open}
-                  //onClose={onCloseModal} 
+                  onClose={onCloseModal} 
                   closeIcon={Close}
                     onCloseModal = {() => setOpen(false)}
                     closeOnEsc
