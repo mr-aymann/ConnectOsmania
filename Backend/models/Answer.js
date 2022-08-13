@@ -1,17 +1,16 @@
-const { default: mongoose } = require('mongoose');
-const moongoose=require('mongoose');
+const mongoose = require("mongoose");
 
-const AnswerSchema=new moongoose.Schema({
-    answer:String,
-    questionId:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'question'
-    },
-    questionUrl:String,
-    createdAt:{
-        type:Date,
-        default:Date.now()
-    }
-})
+const AnswerSchema = new mongoose.Schema({
+  answer: String,
+  questionId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "questions",
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+  },
+  user: Object,
+});
 
-module.exports=moongoose.model('Answer',AnswerSchema)
+module.exports = mongoose.model("Answers", AnswerSchema);
