@@ -15,6 +15,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import ReactTimeAgo from "react-time-ago";
 import axios from "axios";
 import ReactHtmlParser from "html-react-parser";
+import { selectUser } from '../feature/userSlice';
+import { useSelector } from 'react-redux';
 
 
 class CustomQuill extends ReactQuill {
@@ -55,10 +57,12 @@ const modules = {
 
 
 
-function Post({post}) {
+function Post({post,keys}) {
   const [open, setOpen] = useState(false);
   const [answer,setAnswer]=useState("");
   const Close=<CloseIcon/>
+
+  const user=useSelector(selectUser);
 
   const handleQuill = (value) => {
     setAnswer(value);
@@ -74,7 +78,7 @@ function Post({post}) {
       const body = {
         answer: answer,
         questionId: post?._id,
-        
+        user:user,
       };
       await axios
         .post("/api/answers", body, config)
@@ -96,9 +100,9 @@ function Post({post}) {
   return (
     <div className='post'>
         <div className='post__info'>
-            <Avatar/>
-            <h4> User Name</h4>
-            <small><LastSeen date={post?.createdAt} />
+            <Avatar src = {post?.user?.photo}/>
+            <h4> {post?.user?.userName}</h4>
+            <small><LastSeen date={Date.parse(post?.createdAt)} />
             </small>
         </div>
         <div className='post__body'>
@@ -123,7 +127,7 @@ function Post({post}) {
             >
               <div className='modal__question'>
                 <h1>{post?.questionName}</h1>
-                <p>Asked by {" "} <span className='name'>Username </span>on <span className='name'>
+                <p>Asked by {" "} <span className='name'>{user?.userName} </span>on <span className='name'>
                 {new Date(post?.createdAt).toLocaleString()}</span></p>
               </div>
               <div className='modal__answer'>
@@ -179,7 +183,7 @@ function Post({post}) {
       >
       {post?.allAnswers?.map((_a) => (
           <>
-            <div
+            <div key={keys}
               style={{
                 display: "flex",
                 flexDirection: "column",
@@ -213,7 +217,18 @@ function Post({post}) {
                   </span>
                 </div>
               </div>
-              <div className="post-answer">{ReactHtmlParser(_a?.answer)}</div>
+              <div className="post-answer">
+                {console.log(_a?.answer.slice(0,100))}
+                {ReactHtmlParser(_a?.answer.slice(0,100))}
+                
+                <details>
+                    <summary>
+                      <span id="open">read more</span> 
+                      <span id="close">close</span> 
+                    </summary>
+                    <p>{ReactHtmlParser(_a?.answer.slice(100))}</p> 
+              </details>
+              </div>
             </div>
           </>
         ))}

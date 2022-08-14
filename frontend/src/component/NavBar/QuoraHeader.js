@@ -14,6 +14,10 @@ import 'react-responsive-modal/styles.css';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 //import Input from '@mui/icons-material/Input';
 import axios from 'axios';
+import { auth } from "../../firebase";
+import { signOut } from "firebase/auth";
+import { logout, selectUser } from "../../feature/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 function QuoraHeader() {
   const [open, setOpen] = useState(false);
@@ -23,6 +27,8 @@ function QuoraHeader() {
   const onOpenModal = () => setOpen(true);
   const onCloseModal = () => setOpen(false);
   const Close=<CloseIcon/>
+  const dispatch = useDispatch();
+  const user = useSelector(selectUser);
 
   const handleSubmit= async()=>{
     if(question!== ""){
@@ -35,6 +41,7 @@ function QuoraHeader() {
       const data={
         questionName: question,
         questionUrl: inputUrl,
+        user:user,
       }
       await axios.post('/api/questions',data,config).then((res) =>{
         console.log(res.data);
@@ -45,6 +52,18 @@ function QuoraHeader() {
       });
     }
   }
+  const handleLogout = () => {
+    if (window.confirm("Are you sure to logout ?")) {
+      signOut(auth)
+        .then(() => {
+          dispatch(logout());
+          console.log("Logged out");
+        })
+        .catch(() => {
+          console.log("error in logout");
+        });
+    }
+  };
 
   return (
     <div className='qHeader'>
@@ -64,7 +83,9 @@ function QuoraHeader() {
                 <SearchIcon/>
                 <input type="text" placeholder='Search Questions'/>
             </div>
-            <div className='qHeader__Rem'><Avatar/></div>
+            <div className='qHeader__Rem'>
+              <span onClick={handleLogout}><Avatar src={user?.photo}/></span>
+              </div>
                 <Button style=
                 {{ color: "white",
                   background: "#222",
@@ -92,7 +113,7 @@ function QuoraHeader() {
                     <h5> Share Link</h5>
                   </div>
                   <div className='modal__info'>
-                    <Avatar className='avatar'/>
+                    <Avatar src={user?.photo} className='avatar'/>
                     <div className='modal__scope'>
                       <PeopleAltIcon/>
                       <p>Public</p>
