@@ -1,7 +1,15 @@
 const mongoose=require('mongoose');
-const password = "osmania12345";
+const dotenv = require('dotenv');
+
+
+// Load environment variables from .env file
+dotenv.config();
+
+// Access the MongoDB password from the environment variable
+const mongoPassword = process.env.MONGO_PASSWORD;
+
 const url =
-`mongodb+srv://connectAdmin:${password}@cluster0.zw693le.mongodb.net/?retryWrites=true&w=majority`;
+`mongodb+srv://connectAdmin:${mongoPassword}@cluster0.zw693le.mongodb.net/?retryWrites=true&w=majority`;
 
 module.exports.connect=()=>{
     mongoose.connect(url,{useNewUrlParser:true,useUnifiedTopology:true}).then(()=>{
